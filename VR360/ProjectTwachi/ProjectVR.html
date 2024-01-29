@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VR-360</title>
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+</head>
+
+<body>
+    <a-scene>
+        <a-assets>
+            <audio id="click-sound" src="./image/หลายคนตามหา!! ( โตเกียว ดริฟ ) John Rmx.mp3"></audio>
+            <img id="city" src="./image/vecteezy_interior-of-a-night-club-with-bright-lights-and-red-sofas_29197066.jpg">
+            <img src="./image/Untitled design (4).png" id="disco" alt="">
+            <img src="./image/moon-26619_1280.png" id="disco2" alt="">
+            
+            <!-- เพิ่มรูปภาพใหม่ที่ต้องการเปลี่ยน -->
+            <a-asset-item id="boy1" src="./asset/scene.gltf"></a-asset-item>
+
+            <img id="vis" src="./image/witch-7518_256.gif">
+            <img id="bat" src="./image/bat.gif">
+            <img id="bat2" src="./image/bat.gif">
+            <img id="bat3" src="./image/bat.gif">
+      
+        </a-assets>
+
+        <a-sound src="#click-sound" autoplay="true"></a-sound>
+        <a-sky id="image-360" radius="500" src="#city"></a-sky>
+
+        <a-image id="discoImage" src="#disco" position="40 180 -20" width="50" height="50"
+            animation="property: rotation; to: 0 360 0; dur: 5000; easing: linear; loop: true;"></a-image>
+
+        <a-image id="discoImage" src="#disco2" position="70 180 -40" width="50" height="50"
+            animation="property: rotation; to: 0 360 0; dur: 5000; easing: linear; loop: true;"></a-image>
+
+        <a-entity gltf-model="#boy1" position="-20 -10 5" rotation="0 150 0" animation-mixer scale="5 5 5"></a-entity>
+
+        <a-gltf-model src="#tree" position="0 1 -5" scale="5 5 5"></a-gltf-model>
+    </a-scene>
+
+    <script>
+        // เริ่มต้นให้ภาพหมุนไปรอบเดียว
+        rotateImage(0);
+
+        // ฟังก์ชันเพื่อหมุนภาพ
+        function rotateImage(degrees) {
+            // หาค่า Y จากองศา
+            var y = degrees;
+
+            // กำหนดการหมุนใหม่
+            document.getElementById('discoImage').setAttribute('rotation', '0 ' + y + ' 0');
+
+            // เพิ่มองศาเพื่อให้ภาพหมุน
+            degrees += 1;
+
+            // เมื่อหมุนไปครบ 360 องศาให้กลับมาหมุนต่อจาก 0 องศา
+            if (degrees >= 360) {
+                degrees = 0;
+            }
+
+            // เรียกฟังก์ชันใหม่ทุกๆ 10 มิลลิวินาที
+            setTimeout(function () {
+                rotateImage(degrees);
+            }, 1);
+        }
+    </script>
+</body>
+
+</html>

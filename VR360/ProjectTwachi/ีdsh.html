@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VR-360</title>
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+</head>
+
+<body>
+    <a-scene>
+        <a-assets>
+            <audio id="music" src="./asset/music.mp3"></audio>
+            <img id="background" src="/asset/background.jpg">
+               
+            <a-asset-item id="boy1" src="asset/boy_1/scene.gltf"></a-asset-item>
+
+            <img id="TVScreenPic" src="asset/IMG_4399.jpg">
+            <a-asset-item id="gif-model" src="asset/dance.gif"></a-asset-item>
+
+        </a-assets>
+
+        <a-sky id="image-360" radius="100" src="#background" scale="1 1 1" rotation="0 -90 0"></a-sky> 
+        <a-entity gltf-model="#boy1" position="-3.9 0 -10" rotation="0 150 0" animation-mixer="" scale="0.003 0.003 0.003"></a-entity>
+        <a-entity>
+            <a-box color="#888888" position="8.81 8.13 3.78" material="color:skyblue" geometry="depth:8.49;height:0.14;width:0.15"></a-box>
+            <a-box color="#000000" position="8.81 5.838 7.953" rotation="90 0 0" material="color:skyblue" geometry="depth:4.6;height:0.14;width:0.15"></a-box>
+            <a-box color="#000000" position="8.81 5.796 -0.391" rotation="90 0 0" material="color:skyblue" geometry="depth:4.6;height:0.14;width:0.15"></a-box>
+            <a-box color="#000000" position="8.81 3.551 3.781" material="color:skyblue" geometry="depth:8.49;height:0.14;width:0.15"></a-box>
+        </a-entity>
+        <a-entity id="TV" class="intersectable">
+            <a-plane color="#000000" position="8.81 5.786 3.689" rotation="0 90 0" material="color:#000000" geometry="height:4.6;width:8.46"></a-plane>
+            <a-image src="#TVScreenPic" position="8.81 5.786 3.689" rotation="0 90 0" geometry="height:4.6;width:8.25"></a-image>
+        </a-entity>
+        <a-entity id="animatedGIF" position="8.81 5.786 3.689" rotation="0 90 0"></a-entity>
+
+        <a-image src="#dance" position="8.81 5.786 3.689" rotation="0 0 0" geometry="height:4.6;width:8.25"></a-image>
+        <a-sound src="#music" autoplay="true" position="0 2 5"></a-sound>
+    </a-scene>
+
+    <script>
+        AFRAME.registerComponent('animated-gif', {
+        init: function () {
+            var gifTexture = this.setGIFTexture();
+            var material = new THREE.MeshBasicMaterial({ map: gifTexture, transparent: true, side: THREE.DoubleSide });
+            var geometry = new THREE.PlaneGeometry(8.46, 4.6); // กำหนดขนาดของภาพตามขนาดของจอทีวี
+            var plane = new THREE.Mesh(geometry, material);
+        this.el.setObject3D('mesh', plane);
+
+    // แก้ตำแหน่งของภาพให้ตรงกับจอทีวี
+    this.el.object3D.position.set(8.81, 5.786, 3.689); // ตำแหน่งของภาพในเชิงปรกติ
+    this.el.object3D.rotation.set(0, Math.PI / 2, 0); // หมุนภาพให้ตรงกับจอทีวี
+  },
+
+  setGIFTexture: function () {
+    var loader = new THREE.TextureLoader();
+    var texture = loader.load('asset/dance.gif');
+    return texture;
+  }
+});
+
+    </script>
+
+</body>
+
+</html>
